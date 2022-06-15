@@ -44,11 +44,8 @@ def follow_index(request: WSGIRequest) -> HttpResponse:
     """
     template: str = os.path.join(app_name, 'follow.html')
 
-    follower_author_list: list[User] = [
-        f.author for f in request.user.follower.all()
-    ]
     posts: QuerySet = Post.objects.select_related('group', 'author').filter(
-        author__in=follower_author_list
+        author__following__user=request.user
     )
 
     page_num: int = request.GET.get('page')

@@ -363,7 +363,7 @@ class ViewTests(TestCase):
                 http_content = response.content.decode("utf-8")
                 self.assertNotIn(deleted.text, http_content)
 
-    def test_follow_and_unfollow_others_authors_by_user_client(self):
+    def test_follow_and_unfollow_other_authors_by_user_client(self):
         """Test is trying follow/unfollow other authors by user client and
         expecting:
 
@@ -387,7 +387,7 @@ class ViewTests(TestCase):
         self.user_client.get(self.url_reverse['profile_follow'])
         query: QuerySet = Follow.objects.filter(user=self.user)
 
-        self.assertEqual(len(query), 1)
+        self.assertEqual(query.count(), 1)
 
         self.assertEqual(self.user.follower.last().author, self.user_author)
         self.assertFalse(self.user.following.all())
@@ -423,9 +423,11 @@ class ViewTests(TestCase):
             text='Haters gonna hate!', author=self.user_author
         )
 
-        cntxt: ContextList
-        cntxt = follower_client.get(self.url_reverse['follow_index']).context
-        self.assertEqual(cntxt['page_obj'][0], new_post)
+        context: ContextList
+        context = follower_client.get(self.url_reverse['follow_index']).context
+        self.assertEqual(context['page_obj'][0], new_post)
 
-        cntxt = self.user_client.get(self.url_reverse['follow_index']).context
-        self.assertEqual(len(cntxt['page_obj']), 0)
+        context = self.user_client.get(
+            self.url_reverse['follow_index']
+        ).context
+        self.assertEqual(len(context['page_obj']), 0)

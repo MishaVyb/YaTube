@@ -1,25 +1,24 @@
-
 {% load user_filters %}
 {% if user.is_authenticated %}
   <div class="card my-4">
     <h5 class="card-header">Добавить комментарий:</h5>
     <div class="card-body">
-      <!------ errors representation ------>
+
       {% if form.errors %}
-      {% for field in form %}
-        {% for error in field.errors %}
-        <div class="alert alert-danger">
+        {% for field in form %}
+          {% for error in field.errors %}
+          <div class="alert alert-danger">
             {{ error|escape }}
-        </div>
+          </div>
+          {% endfor %}
         {% endfor %}
-      {% endfor %}
-      {% for error in form.non_field_errors %}
-        <div class="alert alert-danger">
-        {{ error|escape }}
-        </div>
-      {% endfor %}
+        {% for error in form.non_field_errors %}
+          <div class="alert alert-danger">
+            {{ error|escape }}
+          </div>
+        {% endfor %}
       {% endif %}
-      <!------ form ------>
+
       <form method="post" action="{% url 'posts:add_comment' post.id %}">
         {% csrf_token %}
         <div class="form-group mb-2">

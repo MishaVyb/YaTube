@@ -2,7 +2,6 @@
 {% block card_body %}
   {% load user_filters %}
 
-  <!------ errors representation ------>
   {% if form.errors %}
     {% for field in form %}
       {% for error in field.errors %}
@@ -18,7 +17,6 @@
     {% endfor %}
   {% endif %}
 
-  <!------------ form fields ---------------->
   <form method="post"
 
     enctype="multipart/form-data"
@@ -53,7 +51,6 @@
       </div>
     {% endfor %}
 
-  <!------------ buttons ---------------->
     {% block buttons %}
       {% with request.resolver_match.view_name as view_name %}
         <div class="{% if view_name == 'posts:post_create' or view_name == 'posts:post_edit'%}
